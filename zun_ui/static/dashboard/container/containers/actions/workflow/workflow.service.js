@@ -45,6 +45,10 @@
         {value: "docker", name: gettext("Docker Hub")},
         {value: "glance", name: gettext("Glance")}
       ];
+      var CPUPolicies = [
+        {value: "shared", name: gettext("Shared")},
+        {value: "dedicated", name: gettext("Dedicated")}
+      ];
       var imagePullPolicies = [
         {value: "", name: gettext("Select policy.")},
         {value: "ifnotpresent", name: gettext("If not present")},
@@ -99,6 +103,10 @@
           },
           runtime: {
             title: gettext("Runtime"),
+            type: "string"
+          },
+          cpu_policy: {
+            title: gettext("CPU Policy"),
             type: "string"
           },
           cpu: {
@@ -246,6 +254,18 @@
                       key: "runtime",
                       placeholder: gettext("The runtime to create container with."),
                       readonly: action === "update"
+                    }
+                  ]
+                },
+                {
+                  type: "section",
+                  htmlClass: "col-xs-6",
+                  items: [
+                    {
+                      key: "cpu_policy",
+                      type: "select",
+                      readonly: action === "update",
+                      titleMap: CPUPolicies
                     }
                   ]
                 },
@@ -502,13 +522,14 @@
         // info
         name: "",
         image: "",
-        image_driver: "docker",
+        image_driver: "glance",
         image_pull_policy: "",
         command: "",
         run: true,
         // spec
         hostname: "",
         runtime: "",
+        cpu_policy: "dedicated",
         cpu: "",
         memory: "",
         disks: "",
@@ -591,6 +612,8 @@
           ? response.data.hostname : "";
         model.runtime = response.data.runtime
           ? response.data.runtime : "";
+        model.cpu_policy = response.data.cpu_policy
+          ? response.data.cpu_policy : "shared";
         model.cpu = response.data.cpu
           ? response.data.cpu : "";
         model.memory = response.data.memory

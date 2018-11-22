@@ -119,6 +119,8 @@ def _cleanup_params(attrs, check, **params):
     for (key, value) in params.items():
         if key == "run":
             run = value
+        elif key == "cpu_policy":
+            args[key] = value
         elif key == "cpu":
             args[key] = float(value)
         elif key == "memory" or key == "disk":

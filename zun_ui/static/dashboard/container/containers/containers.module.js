@@ -163,6 +163,7 @@
       'auto_remove': { label: gettext('Auto Remove'), filters: ['yesno'] },
       'command': { label: gettext('Command'), filters: ['noValue'] },
       'cpu': { label: gettext('CPU'), filters: ['noValue'] },
+      'cpu_policy': { label: gettext('CPU Policy'), filters: ['noValue'] },
       'disk': { label: gettext('Disk'), filters: ['gb', 'noValue'] },
       'environment': { label: gettext('Environment'), filters: ['noValue', 'json'] },
       'host': { label: gettext('Host'), filters: ['noValue'] },
