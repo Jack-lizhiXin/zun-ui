@@ -137,6 +137,10 @@
             type: "number",
             minimum: 0
           },
+          privileged:{
+            title: gettext("Enable privileged"),
+            type: "boolean"
+          },
           auto_heal: {
             title: gettext("Enable auto heal"),
             type: "boolean"
@@ -353,6 +357,16 @@
                     }
                   ]
                 },
+                 {
+                  type: "section",
+                  htmlClass: "col-xs-12",
+                  items:[
+                    {
+                      key: "privileged",
+                      readonly: action === "update"
+                    }
+                  ]
+                },
                 {
                   type: "section",
                   htmlClass: "col-xs-12",
@@ -538,6 +552,7 @@
         restart_policy: "",
         restart_policy_max_retry: "",
         auto_remove: false,
+        privileged: false,
         auto_heal: false,
         // mounts
         mounts: [],
@@ -616,6 +631,8 @@
           ? response.data.cpu_policy : "shared";
         model.cpu = response.data.cpu
           ? response.data.cpu : "";
+        model.privileged = response.data.privileged
+          ? response.data.privileged : false;
         model.memory = response.data.memory
           ? parseInt(response.data.memory, 10) : "";
         model.restart_policy = response.data.restart_policy.Name
