@@ -116,6 +116,18 @@
       priority: 3
     })
     .append({
+      id: 'host',
+      priority: 2
+    })
+    .append({
+      id: 'cpu',
+      priority: 2
+    })
+    .append({
+      id: 'memory',
+      priority: 2,
+    })
+    .append({
       id: 'image',
       priority: 2
     })
@@ -137,6 +149,21 @@
     .append({
       'label': gettext('ID'),
       'name': 'id',
+      'singleton': true
+    })
+    .append({
+      'label': gettext('Host'),
+      'name': 'host',
+      'singleton': true
+    })
+    .append({
+      'label': gettext('CPU'),
+      'name': 'cpu',
+      'singleton': true
+    })
+    .append({
+      'label': gettext('Memory'),
+      'name': 'memory',
       'singleton': true
     })
     .append({
@@ -186,6 +213,7 @@
       'status_detail': {label: gettext('Status Detail'), filters: ['noValue'] },
       'status_reason': {label: gettext('Status Reason'), filters: ['noValue'] },
       'task_state': {label: gettext('Task State'), filters: ['noValue'] },
+      'numa_topology': {label: gettext('NUMA Topology'), filters: ['noValue', 'json'] },
       'workdir': {label: gettext('Workdir'), filters: ['noValue'] }
     };
   }
