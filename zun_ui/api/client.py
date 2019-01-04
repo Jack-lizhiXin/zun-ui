@@ -130,6 +130,8 @@ def _cleanup_params(attrs, check, **params):
                 args[key] = value
             else:
                 del params[key]
+        elif key == "host":
+            args[key] = value
         elif key == "interactive" or key == "mounts" or key == "nets" \
                 or key == "security_groups" or key == "hints"\
                 or key == "auto_remove" or key == "auto_heal":

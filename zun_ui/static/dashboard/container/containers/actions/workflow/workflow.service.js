@@ -124,6 +124,10 @@
             type: "number",
             minimum: 0
           },
+          host: {
+            title: gettext("Host"),
+            type: "string"
+          },
           availability_zone: {
             title: gettext("Availability Zone"),
             type: "string"
@@ -303,6 +307,17 @@
                       key: "disk",
                       step: 1,
                       placeholder: gettext("The disk size in GiB for per container.")
+                    }
+                  ]
+                },
+                {
+                  type: "section",
+                  htmlClass: "col-xs-6",
+                  items: [
+                    {
+                      key: "host",
+                      placeholder: gettext("The destination host of this container."),
+                      readonly: action === "update"
                     }
                   ]
                 },
@@ -547,6 +562,7 @@
         cpu: "",
         memory: "",
         disks: "",
+        host: "",
         availability_zone: "",
         exit_policy: "",
         restart_policy: "",
@@ -635,6 +651,8 @@
           ? response.data.privileged : false;
         model.memory = response.data.memory
           ? parseInt(response.data.memory, 10) : "";
+        model.hostname = response.data.host
+          ? response.data.host : "";
         model.restart_policy = response.data.restart_policy.Name
           ? response.data.restart_policy.Name : "";
         model.restart_policy_max_retry = response.data.restart_policy.MaximumRetryCount
