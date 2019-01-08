@@ -13,6 +13,14 @@
         </select>
       </div>
     </div>
+    <div class="col-xs-12" ng-if="ctrl.model.type==='directory-local'">
+      <div class="form-group">
+        <label class="control-label" for="directory" translate>Source</label>
+        <input type="text" class="form-control" id="directory" name="directory"
+          ng-model="ctrl.model.source"
+          placeholder="{$ 'Specify local directory for container on the host'|translate $}">
+      </div>
+    </div>
     <div class="col-xs-6" ng-if="ctrl.model.type==='cinder-available'">
       <div class="form-group">
         <label class="control-label" for="source" translate>Source</label>
@@ -31,8 +39,6 @@
           placeholder="{$ 'Specify size for the new volume in GB.'|translate $}">
       </div>
     </div>
-  </div>
-  <div class="row">
     <div class="col-xs-12">
       <div class="form-group">
         <label class="control-label" for="destination" translate>Destination</label>

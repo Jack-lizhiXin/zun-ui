@@ -130,10 +130,12 @@
     function setMounts(mounts) {
       var mnts = [];
       mounts.forEach(function(mount) {
-        if (mount.type === "cinder-available") {
-          mnts.push({source: mount.source, destination: mount.destination});
+        if (mount.type === "directory-local") {
+          mnts.push({source: mount.source, destination: mount.destination, type: "dir"});
+        } else if (mount.type === "cinder-available") {
+          mnts.push({source: mount.source, destination: mount.destination, type: "volume"});
         } else if (mount.type === "cinder-new") {
-          mnts.push({source: "", size: mount.size.toString(), destination: mount.destination});
+          mnts.push({source: "", size: mount.size.toString(), destination: mount.destination, type: "volume"});
         }
       });
       return mnts;

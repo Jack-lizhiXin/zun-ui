@@ -35,7 +35,7 @@
     var ctrl = this;
     ctrl.id = 0;
     ctrl.initModel = {
-      type: "cinder-available",
+      type: "directory-local",
       source: "",
       size: null,
       destination: ""
@@ -44,6 +44,7 @@
     // form for adding volume
     ctrl.model = angular.copy(ctrl.initModel);
     ctrl.types = [
+      {value: "directory-local", label: gettext("Existing Local Directory")},
       {value: "cinder-available", label: gettext("Existing Cinder Volume")},
       {value: "cinder-new", label: gettext("New Cinder Volume")}
     ];
@@ -54,7 +55,9 @@
       var model = angular.copy(ctrl.model);
       ctrl.id++;
       model.id = ctrl.id;
-      if (model.type === "cinder-available") {
+      if (model.type === "directory-local") {
+        model.size = null;
+      } else if (model.type === "cinder-available") {
         model.size = null;
       } else if (model.type === "cinder-new") {
         model.source = "";
@@ -129,7 +132,8 @@
     ];
     ctrl.validateVolume = function () {
       return !((ctrl.model.type === "cinder-available" && ctrl.model.source) ||
-               (ctrl.model.type === "cinder-new" && ctrl.model.size)) ||
+               (ctrl.model.type === "cinder-new" && ctrl.model.size) ||
+               (ctrl.model.type === "directory-local" && ctrl.model.source)) ||
              !ctrl.model.destination;
     };
   }
