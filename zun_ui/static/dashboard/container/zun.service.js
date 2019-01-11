@@ -45,6 +45,7 @@
       logsContainer: logsContainer,
       restartContainer: restartContainer,
       rebuildContainer: rebuildContainer,
+      commitContainer: commitContainer,
       pauseContainer: pauseContainer,
       unpauseContainer: unpauseContainer,
       executeContainer: executeContainer,
@@ -147,6 +148,12 @@
     function rebuildContainer(id, params) {
       var msg = gettext('Unable to rebuild Container.');
       return apiService.post(containersPath + id + '/rebuild', params).error(error(msg));
+    }
+
+    function commitContainer(id, params){
+      var json = '{"reponame":"'+params+'"}';
+      var msg = gettext('Unable to commit Container.');
+      return apiService.post(containersPath + id + '/commit', JSON.parse(json)).error(error(msg));
     }
 
     function pauseContainer(id) {

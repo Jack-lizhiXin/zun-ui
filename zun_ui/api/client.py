@@ -242,6 +242,10 @@ def container_rebuild(request, id, **kwargs):
     return zunclient(request).containers.rebuild(id, **kwargs)
 
 
+def container_commit(request, id, reponame):
+    return zunclient(request).containers.commit(id, reponame)
+
+
 def container_pause(request, id):
     return zunclient(request).containers.pause(id)
 

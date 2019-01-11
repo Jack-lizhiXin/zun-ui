@@ -41,6 +41,7 @@
     'horizon.dashboard.container.containers.stop.service',
     'horizon.dashboard.container.containers.restart.service',
     'horizon.dashboard.container.containers.rebuild.service',
+    'horizon.dashboard.container.containers.commit.service',
     'horizon.dashboard.container.containers.pause.service',
     'horizon.dashboard.container.containers.unpause.service',
     'horizon.dashboard.container.containers.execute.service',
@@ -62,6 +63,7 @@
     stopContainerService,
     restartContainerService,
     rebuildContainerService,
+    commitContainerService,
     pauseContainerService,
     unpauseContainerService,
     executeContainerService,
@@ -140,6 +142,13 @@
         service: rebuildContainerService,
         template: {
           text: gettext('Rebuild Container')
+        }
+      })
+      .append({
+        id: 'commitContainerAction',
+        service: commitContainerService,
+        template: {
+          text: gettext('Commit Container')
         }
       })
       .append({

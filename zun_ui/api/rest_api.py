@@ -72,6 +72,9 @@ class ContainerActions(generic.View):
             return client.container_restart(request, id, timeout)
         elif action == 'rebuild':
             return client.container_rebuild(request, id, **request.DATA)
+        elif action == 'commit':
+            reponame = request.DATA.get("reponame")
+            return client.container_commit(request, id, reponame)
         elif action == 'pause':
             return client.container_pause(request, id)
         elif action == 'unpause':
