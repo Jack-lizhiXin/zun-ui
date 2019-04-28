@@ -29,6 +29,7 @@
     var containersPath = '/api/zun/containers/';
     var zunAvailabilityZonesPath = '/api/zun/availability_zones/';
     var capsulesPath = '/api/zun/capsules/';
+    var bigdataClustersPath = 'api/zun/bigdataClusters/';
     var imagesPath = '/api/zun/images/';
     var hostsPath = '/api/zun/hosts/';
     var service = {
@@ -59,6 +60,7 @@
       getCapsule: getCapsule,
       createCapsule: createCapsule,
       deleteCapsule: deleteCapsule,
+      getBigdataClusters: getBigdataClusters,
       pullImage: pullImage,
       getImages: getImages,
       deleteImage: deleteImage,
@@ -236,6 +238,15 @@
         var msg = gettext('Unable to delete the Capsule with id: %(id)s');
         toastService.add('error', interpolate(msg, { id: id }, true));
       });
+    }
+
+    //////////////
+    // BigdataClusters //
+    //////////////
+
+    function getBigdataClusters() {
+      var msg = gettext('Unable to retrieve the BigdataClusters.');
+      return apiService.get(bigdataClustersPath).error(error(msg));
     }
 
     ////////////

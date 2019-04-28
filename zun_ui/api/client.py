@@ -339,3 +339,8 @@ def host_list(request, limit=None, marker=None, sort_key=None,
 
 def host_show(request, id):
     return zunclient(request).hosts.get(id)
+
+def bigdataCluster_list(request, limit=None, marker=None, sort_key=None,
+                 sort_dir=None):
+    return zunclient(request).bigdataClusters.list(limit, marker, sort_key,
+                                            sort_dir)

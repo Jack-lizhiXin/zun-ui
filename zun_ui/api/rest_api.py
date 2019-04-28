@@ -275,3 +275,18 @@ class Host(generic.View):
     def get(self, request, id):
         """Get a specific host"""
         return change_to_id(client.host_show(request, id).to_dict())
+
+@urls.register
+class BigdataClusters(generic.View):
+    """API for BigdataClusters"""
+    url_regex = r'zun/bigdataClusters/$'
+
+    @rest_utils.ajax()
+    def get(self, request):
+        """Get a list of the BigdataClusters.
+
+        The returned result is an object with property 'items' and each
+        item under this is a BigdataClusters.
+        """
+        result = client.bigdataCluster_list(request)
+        return {'items': [i.to_dict() for i in result]} 
