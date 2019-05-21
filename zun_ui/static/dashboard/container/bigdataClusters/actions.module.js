@@ -18,6 +18,7 @@
     registerBigdataClusterActions.$inject = [
       'horizon.framework.conf.resource-type-registry.service',
       'horizon.framework.util.i18n.gettext',
+      'horizon.dashboard.container.bigdataClusters.actions.create.service',
       'horizon.dashboard.container.bigdataClusters.actions.refresh.service',
       'horizon.dashboard.container.bigdataClusters.resourceType'
     ];
@@ -25,10 +26,20 @@
     function registerBigdataClusterActions(
       registry,
       gettext,
+      createBigdataClusterService,
       refreshBigdataClusterService,
       resourceType
     ) {
       var bigdataClustersResourceType = registry.getResourceType(resourceType);
+
+      bigdataClustersResourceType.globalActions
+        .append({
+          id: 'createBigdataClusterAction',
+          service: createBigdataClusterService,
+          template: {
+            text: gettext('Create')
+          }
+        });
   
       // FIXME(shu-mutow): refresh action is dummy. remove it when add other action.
       bigdataClustersResourceType.itemActions

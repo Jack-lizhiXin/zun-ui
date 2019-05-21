@@ -25,12 +25,25 @@ from zunclient.common import template_format
 from zunclient.common import utils
 from zunclient.v1 import client as zun_client
 
+# YSP
+import yaml
+from kubernetes import client, config, utils
+import json
+import getpass
+from zun_ui.api import k8s_client
+from zun_ui.api import cfy
+
 LOG = logging.getLogger(__name__)
 
 CONTAINER_CREATE_ATTRS = zun_client.containers.CREATION_ATTRIBUTES
 CAPSULE_CREATE_ATTRS = zun_client.capsules.CREATION_ATTRIBUTES
+BIGDATACLUSTER_CREATE_ATTRS = zun_client.bigdataClusters.CREATION_ATTRIBUTES
 IMAGE_PULL_ATTRS = zun_client.images.PULL_ATTRIBUTES
 API_VERSION = api_versions.APIVersion(api_versions.DEFAULT_API_VERSION)
+
+
+def capsule_show(request, id):
+    return zunclient(request).capsules.get(id)
 
 
 def get_auth_params_from_request(request):
@@ -298,8 +311,7 @@ def availability_zone_list(request):
 
 def capsule_list(request, limit=None, marker=None, sort_key=None,
                  sort_dir=None):
-    return zunclient(request).capsules.list(limit, marker, sort_key,
-                                            sort_dir)
+    return zunclient(request).capsules.list(limit, marker, sort_key, sort_dir)
 
 
 def capsule_show(request, id):
@@ -309,8 +321,29 @@ def capsule_show(request, id):
 def capsule_create(request, **kwargs):
     args, run = _cleanup_params(CAPSULE_CREATE_ATTRS, True, **kwargs)
     args["template"] = template_format.parse(args["template"])
+    print 'YYy'
+    print 'template', args["template"]
+    print 'SSS'
     return zunclient(request).capsules.create(**args)
 
+# YSP
+
+# no use
+def bigdataCluster_list(request, limit=None, marker=None, sort_key=None, sort_dir=None):
+    # return zunclient(request).bigdataClusters.list(limit, marker, sort_key, sort_dir)
+    return zunclient(request).bigdataClusters.list(limit, marker, sort_key, sort_dir)
+
+def bigdataCluster_create(request, **kwargs):
+    args, run = _cleanup_params(BIGDATACLUSTER_CREATE_ATTRS, True, **kwargs)
+    # yaml file -> file
+    yaml_file = str(args["template"])
+    print yaml_file
+    args["template"] = template_format.parse(args["template"])
+
+    json_file = args["template"]
+    print "client:", json_file
+    k8s_client.create_deployment_from_yaml(json_file)
+    return  
 
 def capsule_delete(request, **kwargs):
     return zunclient(request).capsules.delete(**kwargs)
@@ -331,16 +364,9 @@ def image_delete(request, id, **kwargs):
     return zunclient(request).images.delete(id, **kwargs)
 
 
-def host_list(request, limit=None, marker=None, sort_key=None,
-              sort_dir=None):
-    return zunclient(request).hosts.list(limit, marker, sort_key,
-                                         sort_dir)
+def host_list(request, limit=None, marker=None, sort_key=None, sort_dir=None):
+    return zunclient(request).hosts.list(limit, marker, sort_key, sort_dir)
 
 
 def host_show(request, id):
     return zunclient(request).hosts.get(id)
-
-def bigdataCluster_list(request, limit=None, marker=None, sort_key=None,
-                 sort_dir=None):
-    return zunclient(request).bigdataClusters.list(limit, marker, sort_key,
-                                            sort_dir)

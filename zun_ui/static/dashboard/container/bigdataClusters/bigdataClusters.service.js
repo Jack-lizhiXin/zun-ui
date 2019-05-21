@@ -20,13 +20,14 @@
       }
   
       function modifyResponse(response) {
-        return {data: {items: response.data.items.map(modifyItem)}};
+        console.log(response.data);
+        return {data: {items: response.data.pods_info.map(modifyItem)}};
       }
   
       function modifyItem(item) {
-        item.id = item.uuid;
-        item.trackBy = item.uuid;
-        item.trackBy = item.trackBy.concat(item.updated_at);
+        item.id = item.id;
+        item.trackBy = item.id;
+        // item.trackBy = item.trackBy.concat(item.updated_at);
         return item;
       }
     }

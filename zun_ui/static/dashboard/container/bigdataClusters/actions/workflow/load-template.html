@@ -1,0 +1,9 @@
+<div ng-controller="horizon.dashboard.container.bigdataClusters.actions.workflow.loadTemplateController as ctrl">
+    <yaml-edit title="{$ ctrl.title $}"
+               model="ctrl.template"
+               max-bytes="{$ 16 * 1024 $}"
+               key="template"
+               rows=20 required="true"
+               on-textarea-change="ctrl.onTemplateChange(textContent)">
+    </yaml-edit>
+</div>

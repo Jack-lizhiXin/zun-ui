@@ -72,6 +72,7 @@
     }
 
     function submit(context) {
+      console.log('context',context.model);
       return zun.createCapsule(context.model, true).then(success, true);
     }
 

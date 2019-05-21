@@ -13,9 +13,11 @@
 from django.views import generic
 
 from zun_ui.api import client
+from zun_ui.api import k8s_client
 
 from openstack_dashboard.api.rest import urls
 from openstack_dashboard.api.rest import utils as rest_utils
+import json
 
 
 def change_to_id(obj):
@@ -197,11 +199,30 @@ class Capsules(generic.View):
 
         Returns the new Capsule object on success.
         """
+        print 'request', request
         new_capsule = client.capsule_create(request, **request.DATA)
-        return rest_utils.CreatedResponse(
-            '/api/zun/capsules/%s' % new_capsule.uuid,
-            new_capsule.to_dict())
+        return rest_utils.CreatedResponse('/api/zun/capsules/%s' % new_capsule.uuid, new_capsule.to_dict())
 
+@urls.register
+class BigdataClusters(generic.View):
+    """API for BigdataClusters"""
+    url_regex = r'zun/bigdataClusters/$'
+
+    @rest_utils.ajax()
+    def get(self, request):
+        """
+        Get a list of the BigdataClusters.
+        The returned result is an object with property 'items' and each item under this is a BigdataClusters.
+        """
+        pods_info = k8s_client.list_all_pods()
+        return json.loads(pods_info)
+
+    @rest_utils.ajax(data_required=True)
+    def post(self, request):
+        # Create a new BigdataCluster.
+        # k8s_client.create_deployment_from_yaml()
+        new_deployment_bigdataCluster = client.bigdataCluster_create(request, **request.DATA)
+        return
 
 @urls.register
 class Capsule(generic.View):
@@ -275,18 +296,3 @@ class Host(generic.View):
     def get(self, request, id):
         """Get a specific host"""
         return change_to_id(client.host_show(request, id).to_dict())
-
-@urls.register
-class BigdataClusters(generic.View):
-    """API for BigdataClusters"""
-    url_regex = r'zun/bigdataClusters/$'
-
-    @rest_utils.ajax()
-    def get(self, request):
-        """Get a list of the BigdataClusters.
-
-        The returned result is an object with property 'items' and each
-        item under this is a BigdataClusters.
-        """
-        result = client.bigdataCluster_list(request)
-        return {'items': [i.to_dict() for i in result]} 

@@ -42,65 +42,42 @@
       .setListFunction(bigdataClusterService.getBigdataClustersPromise)
       .tableColumns
       .append({
-        id: 'meta_name',
+        id: 'pods_name',
         priority: 1,
         sortDefault: true
       })
       .append({
-        id: 'id',
+        id: 'pods_namespace',
         priority: 2
       })
       .append({
-        id: 'status',
+        id: 'pods_labels',
         priority: 1
-      })
-      .append({
-        id: 'cpu',
-        priority: 3
-      })
-      .append({
-        id: 'memory',
-        priority: 3
       });
       // for magic-search
       registry.getResourceType(resourceType).filterFacets
       .append({
-        'label': gettext('ID'),
-        'name': 'id',
+        'label': gettext('Namespace'),
+        'name': 'pods_namespace',
         'singleton': true
       })
       .append({
         'label': gettext('Name'),
-        'name': 'meta_name',
+        'name': 'pods_name',
         'singleton': true
       })
       .append({
-        'label': gettext('Status'),
-        'name': 'status',
+        'label': gettext('Labels'),
+        'name': 'pods_labels',
         'singleton': true
       });
     }
   
     function bigdataClusterProperties() {
       return {
-        'addresses': {label: gettext('Addresses'), filters: ['noValue', 'json'] },
-        'cluster_versionid': {label: gettext('Cluster Version ID'), filters: ['noValue'] },
-        'containers': {label: gettext('Containers'), filters: ['noValue', 'json'] },
-        'container_uuids': {label: gettext('Container UUIDs'), filters: ['noValue', 'json'] },
-        'cpu': {label: gettext('CPU'), filters: ['noValue'] },
-        'created_at': { label: gettext('Created'), filters: ['simpleDate'] },
-        'id': {label: gettext('ID'), filters: ['noValue'] },
-        'links': {label: gettext('Links'), filters: ['noValue', 'json'] },
-        'memory': { label: gettext('Memory'), filters: ['noValue'] },
-        'meta_labels': {label: gettext('Labels'), filters: ['noValue', 'json'] },
-        'meta_name': { label: gettext('Name'), filters: ['noName'] },
-        'project_id': { label: gettext('Project ID'), filters: ['noValue'] },
-        'restart_policy': { label: gettext('Restart Policy'), filters: ['noValue'] },
-        'status': { label: gettext('Status'), filters: ['noValue'] },
-        'status_reason': { label: gettext('Status Reason'), filters: ['noValue'] },
-        'updated_at': { label: gettext('Updated'), filters: ['simpleDate'] },
-        'user_id': { label: gettext('User ID'), filters: ['noValue'] },
-        'volumes_info': {label: gettext('Volumes Info'), filters: ['noValue', 'json'] }
+        'pods_labels': {label: gettext('Labels'), filters: ['noValue', 'json'] },
+        'pods_name': { label: gettext('Name'), filters: ['noName'] },
+        'pods_namespace': { label: gettext('Namespace'), filters: ['noValue'] }
       };
     }
   

@@ -61,6 +61,7 @@
       createCapsule: createCapsule,
       deleteCapsule: deleteCapsule,
       getBigdataClusters: getBigdataClusters,
+      createBigdataCluster: createBigdataCluster,
       pullImage: pullImage,
       getImages: getImages,
       deleteImage: deleteImage,
@@ -247,6 +248,11 @@
     function getBigdataClusters() {
       var msg = gettext('Unable to retrieve the BigdataClusters.');
       return apiService.get(bigdataClustersPath).error(error(msg));
+    }
+
+    function createBigdataCluster(params) {
+      var msg = gettext('Unable to create BigdataCluster.');
+      return apiService.post(bigdataClustersPath, params).error(error(msg));
     }
 
     ////////////
