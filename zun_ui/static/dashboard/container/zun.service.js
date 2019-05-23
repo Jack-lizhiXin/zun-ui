@@ -30,6 +30,7 @@
     var zunAvailabilityZonesPath = '/api/zun/availability_zones/';
     var capsulesPath = '/api/zun/capsules/';
     var bigdataClustersPath = 'api/zun/bigdataClusters/';
+    var deploymentsPath = 'api/zun/deployments/';
     var imagesPath = '/api/zun/images/';
     var hostsPath = '/api/zun/hosts/';
     var service = {
@@ -62,6 +63,8 @@
       deleteCapsule: deleteCapsule,
       getBigdataClusters: getBigdataClusters,
       createBigdataCluster: createBigdataCluster,
+      getDeployments: getDeployments,
+      getDeployment: getDeployment,
       pullImage: pullImage,
       getImages: getImages,
       deleteImage: deleteImage,
@@ -254,6 +257,20 @@
       var msg = gettext('Unable to create BigdataCluster.');
       return apiService.post(bigdataClustersPath, params).error(error(msg));
     }
+
+    //////////////
+    // deployments //
+    //////////////
+
+    function getDeployments() {
+      var msg = gettext('Unable to retrieve the Deployments.');
+      return apiService.get(deploymentsPath).error(error(msg));
+    }
+    function getDeployment(id) {
+      var msg = gettext('Unable to retrieve the Deployment.');
+      return apiService.get(deploymentsPath + id).error(error(msg));
+    }
+
 
     ////////////
     // Images //

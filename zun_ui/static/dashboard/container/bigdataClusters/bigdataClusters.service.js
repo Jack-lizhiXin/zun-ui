@@ -20,7 +20,6 @@
       }
   
       function modifyResponse(response) {
-        console.log(response.data);
         return {data: {items: response.data.pods_info.map(modifyItem)}};
       }
   

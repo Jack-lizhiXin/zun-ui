@@ -48,7 +48,7 @@
       })
       .append({
         id: 'pods_namespace',
-        priority: 2
+        priority: 1
       })
       .append({
         id: 'pods_labels',

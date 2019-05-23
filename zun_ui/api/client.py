@@ -343,7 +343,7 @@ def bigdataCluster_create(request, **kwargs):
     json_file = args["template"]
     print "client:", json_file
     k8s_client.create_deployment_from_yaml(json_file)
-    return  
+    return
 
 def capsule_delete(request, **kwargs):
     return zunclient(request).capsules.delete(**kwargs)

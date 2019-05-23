@@ -37,9 +37,9 @@
           id: 'createBigdataClusterAction',
           service: createBigdataClusterService,
           template: {
-            text: gettext('Create')
+            text: gettext('Create by Yaml')
           }
-        });
+      });
   
       // FIXME(shu-mutow): refresh action is dummy. remove it when add other action.
       bigdataClustersResourceType.itemActions

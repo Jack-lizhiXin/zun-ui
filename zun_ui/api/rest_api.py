@@ -215,6 +215,7 @@ class BigdataClusters(generic.View):
         The returned result is an object with property 'items' and each item under this is a BigdataClusters.
         """
         pods_info = k8s_client.list_all_pods()
+        print "pods-type:", type(pods_info)
         return json.loads(pods_info)
 
     @rest_utils.ajax(data_required=True)
@@ -223,6 +224,22 @@ class BigdataClusters(generic.View):
         # k8s_client.create_deployment_from_yaml()
         new_deployment_bigdataCluster = client.bigdataCluster_create(request, **request.DATA)
         return
+
+@urls.register
+class Deployments(generic.View):
+    """API for Deployments"""
+    url_regex = r'zun/deployments/$'
+
+    @rest_utils.ajax()
+    def get(self, request):
+        """Get a list of the Deployments.
+
+        The returned result is an object with property 'items' and each
+        item under this is a Deployments.
+        """
+        deployments_info = k8s_client.list_all_deployment()
+        print "deployment:", type(deployments_info)
+        return json.loads(deployments_info)
 
 @urls.register
 class Capsule(generic.View):
