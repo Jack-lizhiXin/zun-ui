@@ -20,9 +20,23 @@
      */
     function deploymentsService(detailRoute, zun) {
       return {
+        getDetailsPath: getDetailsPath,
+        getDeploymentPromise: getDeploymentPromise,
         getDeploymentsPromise: getDeploymentsPromise
       };
   
+      function getDetailsPath(item) {
+        return detailRoute + 'OS::Zun::Deployment/' + item.id;
+      }
+
+      function getDeploymentPromise(identifier) {
+        return zun.getDeployment(identifier).then(modifyDetails);
+      }
+  
+      function modifyDetails(response) {
+        return {data: modifyItem(response.data)};
+      }
+
       /*
        * @ngdoc function
        * @name getDeploymentsPromise

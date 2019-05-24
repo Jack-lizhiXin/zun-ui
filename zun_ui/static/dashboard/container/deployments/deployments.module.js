@@ -12,7 +12,8 @@
     angular
       .module('horizon.dashboard.container.deployments', [
         'ngRoute',
-        'horizon.dashboard.container.deployments.actions'
+        'horizon.dashboard.container.deployments.actions',
+        'horizon.dashboard.container.deployments.details'
       ])
       .constant('horizon.dashboard.container.deployments.events', events())
       .constant('horizon.dashboard.container.deployments.resourceType', 'OS::Zun::Deployment')
@@ -33,6 +34,7 @@
     }
   
     run.$inject = [
+      '$filter',
       'horizon.framework.conf.resource-type-registry.service',
       'horizon.app.core.openstack-service-api.zun',
       'horizon.dashboard.container.deployments.basePath',
@@ -40,7 +42,7 @@
       'horizon.dashboard.container.deployments.service'
     ];
   
-    function run(registry, zun, basePath, resourceType, deploymentService) {
+    function run($filter, registry, zun, basePath, resourceType, deploymentService) {
       registry.getResourceType(resourceType)
       .setNames(gettext('Deployment'), gettext('Deployments'))
       // for detail summary view on table row.
@@ -52,7 +54,8 @@
       .append({
         id: 'deployment_name',
         priority: 1,
-        sortDefault: true
+        sortDefault: true,
+        urlFunction: deploymentService.getDetailsPath
       })
       .append({
         id: 'deployment_namespace',

@@ -1,0 +1,51 @@
+<div ng-controller="horizon.dashboard.container.deployments.OverviewController as ctrl">
+    <div class="row">
+      <div class="col-md-6 detail">
+        <h3 translate>Info</h3>
+        <hr>
+        <hz-resource-property-list
+          resource-type-name="OS::Zun::Deployment"
+          cls="dl-horizontal"
+          item="ctrl.deployment"
+          property-groups="[['deployment_name', 'deployment_namespace', 'deployment_labels']]">
+        </hz-resource-property-list>
+      </div>
+
+      <div class="col-md-6 detail">
+        <h3 translate>Pods</h3>
+        <hr>
+        <hz-resource-property-list
+          resource-type-name="OS::Zun::Deployment"
+          cls="dl-horizontal"
+          item="ctrl.deployment"
+          property-groups="[['cpu', 'memory', 'restart_policy',
+                             'meta_labels', 'links', 'addresses']]">
+        </hz-resource-property-list>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 detail">
+        <h3 translate>Containers</h3>
+        <hr>
+        <div class="row">
+          <dl class="col-md-12 dl-horizontal" ng-repeat="container in ctrl.deployment.containers">
+            <dt>Name</dt>
+            <dd><a href="{$ ctrl.webRoot $}ngdetails/OS::Zun::Container/{$ container.uuid $}">{$ container.name $}</a></dd>
+            <dt>Container ID</dt>
+            <dd>{$ container.uuid $}</dd>
+          </dl>
+        </div>
+      </div>
+      <div class="col-md-6 detail">
+        <h3 translate>Volumes</h3>
+        <hr>
+        <hz-resource-property-list
+          resource-type-name="OS::Zun::Deployment"
+          cls="dl-horizontal"
+          item="ctrl.deployment"
+          property-groups="[['volumes_info']]">
+        </hz-resource-property-list>
+      </div>
+    </div>
+  </div>

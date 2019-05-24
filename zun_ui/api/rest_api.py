@@ -242,6 +242,16 @@ class Deployments(generic.View):
         return json.loads(deployments_info)
 
 @urls.register
+class Deployment(generic.View):
+    """API for retrieving a single deployment"""
+    url_regex = r'zun/deployments/(?P<id>[^/]+)$'
+
+    @rest_utils.ajax()
+    def get(self, request, id):
+        # return change_to_id(client.deyloyment_show(request, id).to_dict())
+        return []
+
+@urls.register
 class Capsule(generic.View):
     """API for retrieving a single capsule"""
     url_regex = r'zun/capsules/(?P<id>[^/]+)$'
