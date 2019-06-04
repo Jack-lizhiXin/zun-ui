@@ -238,8 +238,29 @@ class Deployments(generic.View):
         item under this is a Deployments.
         """
         deployments_info = k8s_client.list_all_deployment()
-        print "deployment:", type(deployments_info)
+        print deployments_info
         return json.loads(deployments_info)
+
+    @rest_utils.ajax(data_required=True)
+    def post(self, request):
+        """Create a new Deployment.
+
+        Returns the new Deployment object on success.
+        """
+        return []
+
+    @rest_utils.ajax(data_required=True)
+    def delete(self, request):
+        """Delete one or more Deployments by id.
+        Returns HTTP 204 (no content) on successful deletion.
+        """
+        for id in request.DATA:
+            opts = {'id': id}
+            # print opts['id']
+            # client.deployment_delete(request, **opts)
+            k8s_client.delete_deployment_from_id(opts["id"])
+
+        return
 
 @urls.register
 class Deployment(generic.View):
@@ -249,7 +270,10 @@ class Deployment(generic.View):
     @rest_utils.ajax()
     def get(self, request, id):
         # return change_to_id(client.deyloyment_show(request, id).to_dict())
-        return []
+        # print "id: ", id
+        id_to_deployment_info = k8s_client.get_deployment_info_from_id(id)
+        # print id_to_deployment_info
+        return json.loads(id_to_deployment_info)
 
 @urls.register
 class Capsule(generic.View):
@@ -279,12 +303,12 @@ class Images(generic.View):
 
     @rest_utils.ajax(data_required=True)
     def delete(self, request):
-        """Delete one or more Images by id.
+        """Delete one or more Images by uuid.
 
         Returns HTTP 204 (no content) on successful deletion.
         """
-        for id in request.DATA:
-            client.image_delete(request, id)
+        for uuid in request.DATA:
+            client.image_delete(request, uuid)
 
     @rest_utils.ajax(data_required=True)
     def post(self, request):

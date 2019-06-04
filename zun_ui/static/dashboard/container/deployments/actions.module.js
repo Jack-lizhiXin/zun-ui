@@ -18,25 +18,36 @@
     registerDeploymentActions.$inject = [
       'horizon.framework.conf.resource-type-registry.service',
       'horizon.framework.util.i18n.gettext',
-      'horizon.dashboard.container.deployments.actions.refresh.service',
+      'horizon.dashboard.container.deployments.actions.create.service',
+      'horizon.dashboard.container.deployments.actions.delete.service',
       'horizon.dashboard.container.deployments.resourceType'
     ];
   
     function registerDeploymentActions(
       registry,
       gettext,
-      refreshDeploymentService,
+      createDeploymentService,
+      deleteDeploymentService,
       resourceType
     ) {
       var deploymentsResourceType = registry.getResourceType(resourceType);
+
+      deploymentsResourceType.globalActions
+        .append({
+          id: 'createDeploymentAction',
+          service: createDeploymentService,
+          template: {
+            text: gettext('Create By Yaml')
+          }
+        });
   
-      // FIXME(shu-mutow): refresh action is dummy. remove it when add other action.
       deploymentsResourceType.itemActions
         .append({
-          id: 'refreshDeploymentAction',
-          service: refreshDeploymentService,
+          id: 'deleteDeploymentAction',
+          service: deleteDeploymentService,
           template: {
-            text: gettext('Refresh')
+            type: 'delete',
+            text: gettext('Delete')
           }
         });
     }

@@ -26,7 +26,6 @@
       function modifyItem(item) {
         item.id = item.id;
         item.trackBy = item.id;
-        // item.trackBy = item.trackBy.concat(item.updated_at);
         return item;
       }
     }

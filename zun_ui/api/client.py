@@ -321,9 +321,7 @@ def capsule_show(request, id):
 def capsule_create(request, **kwargs):
     args, run = _cleanup_params(CAPSULE_CREATE_ATTRS, True, **kwargs)
     args["template"] = template_format.parse(args["template"])
-    print 'YYy'
     print 'template', args["template"]
-    print 'SSS'
     return zunclient(request).capsules.create(**args)
 
 # YSP

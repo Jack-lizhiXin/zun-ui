@@ -18,7 +18,13 @@
       $scope.context.loadPromise.then(onGetDeployment);
   
       function onGetDeployment(deployment) {
-        ctrl.deployment = deployment.data;
+        var detailsData = {};
+        detailsData.id = deployment.data.id;
+        detailsData.metadata = deployment.data.id_deployment_info[0].metadata;
+        detailsData.spec = deployment.data.id_deployment_info[1].spec;
+        detailsData.status = deployment.data.id_deployment_info[2].status;
+        console.log('detaildata', detailsData);
+        ctrl.deployment = detailsData;
       }
     }
   })();

@@ -65,6 +65,8 @@
       createBigdataCluster: createBigdataCluster,
       getDeployments: getDeployments,
       getDeployment: getDeployment,
+      createDeployment: createDeployment,
+      deleteDeployment: deleteDeployment,
       pullImage: pullImage,
       getImages: getImages,
       deleteImage: deleteImage,
@@ -269,6 +271,17 @@
     function getDeployment(id) {
       var msg = gettext('Unable to retrieve the Deployment.');
       return apiService.get(deploymentsPath + id).error(error(msg));
+    }
+    function deleteDeployment(id, suppressError) {
+      var promise = apiService.delete(deploymentsPath, [id]);
+      return suppressError ? promise : promise.error(function() {
+        var msg = gettext('Unable to delete the Deployment with id: %(id)s');
+        toastService.add('error', interpolate(msg, { id: id }, true));
+      });
+    }
+    function createDeployment(params) {
+      var msg = gettext('Unable to create Deployment.');
+      return apiService.post(deploymentsPath, params).error(error(msg));
     }
 
 

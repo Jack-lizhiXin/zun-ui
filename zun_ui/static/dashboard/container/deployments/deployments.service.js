@@ -34,7 +34,7 @@
       }
   
       function modifyDetails(response) {
-        return {data: modifyItem(response.data)};
+        return {data: modifyDetailItem(response.data)};
       }
 
       /*
@@ -55,7 +55,15 @@
   
       function modifyItem(item) {
         item.id = item.uuid;
-        item.trackBy = item.uuid;
+        item.uuid = item.uuid;
+        item.trackBy =item.uuid;
+        return item;
+      }
+
+      function modifyDetailItem(item) {
+        item.id = item.id_deployment_info[0].metadata.uid;
+        item.uuid = item.id;
+        item.trackBy =item.id;
         return item;
       }
     }

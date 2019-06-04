@@ -1,9 +1,9 @@
 (function() {
     'use strict';
-  
+
     angular
-      .module('horizon.dashboard.container.bigdataClusters.actions')
-      .controller('horizon.dashboard.container.bigdataClusters.actions.workflow.loadTemplateController',
+      .module('horizon.dashboard.container.deployments.actions')
+      .controller('horizon.dashboard.container.deployments.actions.workflow.loadTemplateController',
         loadTemplateController);
   
     loadTemplateController.$inject = [

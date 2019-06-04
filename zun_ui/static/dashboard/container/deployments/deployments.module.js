@@ -58,6 +58,10 @@
         urlFunction: deploymentService.getDetailsPath
       })
       .append({
+        id: 'id',
+        priority: 1
+      })
+      .append({
         id: 'deployment_namespace',
         priority: 1
       })
@@ -78,6 +82,11 @@
         'singleton': true
       })
       .append({
+        'label': gettext('ID'),
+        'name': 'id',
+        'singleton': true
+      })
+      .append({
         'label': gettext('Labels'),
         'name': 'deployment_labels',
         'singleton': true
@@ -88,7 +97,9 @@
       return {
         'deployment_labels': {label: gettext('Labels'), filters: ['noValue', 'json'] },
         'deployment_name': { label: gettext('Name'), filters: ['noName'] },
-        'deployment_namespace': { label: gettext('Namespace'), filters: ['noValue'] }
+        'id': { label: gettext('ID'), filters: ['noValue'] },
+        'deployment_namespace': { label: gettext('Namespace'), filters: ['noValue'] },
+        'metadata': {label: gettext('Metadata'), filters: ['noValue', 'json']}
       };
     }
   
