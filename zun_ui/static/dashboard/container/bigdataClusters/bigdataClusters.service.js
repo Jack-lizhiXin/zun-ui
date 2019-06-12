@@ -20,7 +20,7 @@
       }
   
       function modifyResponse(response) {
-        return {data: {items: response.data.pods_info.map(modifyItem)}};
+        return {data: {items: response.data.hadoop_cluster_deployment_infos.map(modifyItem)}};
       }
   
       function modifyItem(item) {

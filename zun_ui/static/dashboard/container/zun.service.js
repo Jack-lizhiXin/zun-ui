@@ -29,6 +29,7 @@
     var containersPath = '/api/zun/containers/';
     var zunAvailabilityZonesPath = '/api/zun/availability_zones/';
     var capsulesPath = '/api/zun/capsules/';
+    var podsPath = '/api/zun/pods/';
     var bigdataClustersPath = 'api/zun/bigdataClusters/';
     var deploymentsPath = 'api/zun/deployments/';
     var imagesPath = '/api/zun/images/';
@@ -61,11 +62,14 @@
       getCapsule: getCapsule,
       createCapsule: createCapsule,
       deleteCapsule: deleteCapsule,
+      getPods: getPods,
       getBigdataClusters: getBigdataClusters,
       createBigdataCluster: createBigdataCluster,
+      createBigdataCluster2: createBigdataCluster2,
       getDeployments: getDeployments,
       getDeployment: getDeployment,
       createDeployment: createDeployment,
+      createDeployment2: createDeployment2,
       deleteDeployment: deleteDeployment,
       pullImage: pullImage,
       getImages: getImages,
@@ -247,6 +251,15 @@
     }
 
     //////////////
+    // pods //
+    //////////////
+
+    function getPods() {
+      var msg = gettext('Unable to retrieve the Pods.');
+      return apiService.get(podsPath).error(error(msg));
+    }
+
+    //////////////
     // BigdataClusters //
     //////////////
 
@@ -254,10 +267,13 @@
       var msg = gettext('Unable to retrieve the BigdataClusters.');
       return apiService.get(bigdataClustersPath).error(error(msg));
     }
-
     function createBigdataCluster(params) {
       var msg = gettext('Unable to create BigdataCluster.');
       return apiService.post(bigdataClustersPath, params).error(error(msg));
+    }
+    function createBigdataCluster2(params) {
+      var msg = gettext('Unable to create BigdataCluster.');
+      return apiService.post2(bigdataClustersPath, params).error(error(msg));
     }
 
     //////////////
@@ -283,7 +299,10 @@
       var msg = gettext('Unable to create Deployment.');
       return apiService.post(deploymentsPath, params).error(error(msg));
     }
-
+    function createDeployment2(params) {
+      var msg = gettext('Unable to create Deployment.');
+      return apiService.post2(deploymentsPath, params).error(error(msg));
+    }
 
     ////////////
     // Images //

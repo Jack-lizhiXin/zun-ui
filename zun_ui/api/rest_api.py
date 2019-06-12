@@ -204,6 +204,21 @@ class Capsules(generic.View):
         return rest_utils.CreatedResponse('/api/zun/capsules/%s' % new_capsule.uuid, new_capsule.to_dict())
 
 @urls.register
+class Pods(generic.View):
+    """API for Pods"""
+    url_regex = r'zun/pods/$'
+
+    @rest_utils.ajax()
+    def get(self, request):
+        """
+        Get a list of the Pods.
+        The returned result is an object with property 'items' and each item under this is a Pods.
+        """
+        pods_info = k8s_client.list_all_pods()
+        print "pods-type:", type(pods_info)
+        return json.loads(pods_info)
+
+@urls.register
 class BigdataClusters(generic.View):
     """API for BigdataClusters"""
     url_regex = r'zun/bigdataClusters/$'
@@ -214,15 +229,20 @@ class BigdataClusters(generic.View):
         Get a list of the BigdataClusters.
         The returned result is an object with property 'items' and each item under this is a BigdataClusters.
         """
-        pods_info = k8s_client.list_all_pods()
-        print "pods-type:", type(pods_info)
-        return json.loads(pods_info)
+        hadoop_cluster_info = k8s_client.list_all_hadoop_cluster_info()
+        return json.loads(hadoop_cluster_info)
 
     @rest_utils.ajax(data_required=True)
     def post(self, request):
-        # Create a new BigdataCluster.
-        # k8s_client.create_deployment_from_yaml()
         new_deployment_bigdataCluster = client.bigdataCluster_create(request, **request.DATA)
+        return
+
+    @rest_utils.ajax(data_required=True)
+    def post2(self, request):
+        """Create a new BigdataCluster by property.
+
+        Returns the new BigdataCluster object on success.
+        """
         return
 
 @urls.register
@@ -247,7 +267,17 @@ class Deployments(generic.View):
 
         Returns the new Deployment object on success.
         """
-        return []
+        new_deployment_bigdataCluster = client.bigdataCluster_create(request, **request.DATA)
+        return
+
+    @rest_utils.ajax(data_required=True)
+    def post2(self, request):
+        """Create a new Deployment by property.
+
+        Returns the new Deployment object on success.
+        """
+        #client.create_test(request, **request.DATA)
+        return
 
     @rest_utils.ajax(data_required=True)
     def delete(self, request):
@@ -272,9 +302,8 @@ class Deployment(generic.View):
         # return change_to_id(client.deyloyment_show(request, id).to_dict())
         # print "id: ", id
         id_to_deployment_info = k8s_client.get_deployment_info_from_id(id)
-        # print id_to_deployment_info
         return json.loads(id_to_deployment_info)
-
+     
 @urls.register
 class Capsule(generic.View):
     """API for retrieving a single capsule"""

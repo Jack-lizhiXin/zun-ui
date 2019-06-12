@@ -25,6 +25,7 @@
     .module('horizon.dashboard.container', [
       'horizon.dashboard.container.containers',
       'horizon.dashboard.container.capsules',
+      'horizon.dashboard.container.pods',
       'horizon.dashboard.container.bigdataClusters',
       'horizon.dashboard.container.deployments',
       'horizon.dashboard.container.images',

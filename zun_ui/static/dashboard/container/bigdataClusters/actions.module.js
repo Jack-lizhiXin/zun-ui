@@ -19,6 +19,7 @@
       'horizon.framework.conf.resource-type-registry.service',
       'horizon.framework.util.i18n.gettext',
       'horizon.dashboard.container.bigdataClusters.actions.create.service',
+      'horizon.dashboard.container.bigdataClusters.actions.create2.service',
       'horizon.dashboard.container.bigdataClusters.actions.refresh.service',
       'horizon.dashboard.container.bigdataClusters.resourceType'
     ];
@@ -27,6 +28,7 @@
       registry,
       gettext,
       createBigdataClusterService,
+      createBigdataClusterService2,
       refreshBigdataClusterService,
       resourceType
     ) {
@@ -39,7 +41,14 @@
           template: {
             text: gettext('Create by Yaml')
           }
-      });
+        })
+        .append({
+          id: 'createBigdataClusterAction2',
+          service: createBigdataClusterService2,
+          template: {
+            text: gettext('Create by Property')
+          }
+        });
   
       // FIXME(shu-mutow): refresh action is dummy. remove it when add other action.
       bigdataClustersResourceType.itemActions

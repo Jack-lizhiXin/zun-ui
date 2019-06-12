@@ -42,42 +42,48 @@
       .setListFunction(bigdataClusterService.getBigdataClustersPromise)
       .tableColumns
       .append({
-        id: 'pods_name',
+        id: 'id',
         priority: 1,
         sortDefault: true
       })
       .append({
-        id: 'pods_namespace',
+        id: 'name',
+        priority: 1,
+        sortDefault: true
+      })
+      .append({
+        id: 'namespace',
         priority: 1
       })
       .append({
-        id: 'pods_labels',
+        id: 'labels',
         priority: 1
+      })
+      .append({
+        id: 'replicas',
+        priority: 1,
       });
       // for magic-search
       registry.getResourceType(resourceType).filterFacets
       .append({
-        'label': gettext('Namespace'),
-        'name': 'pods_namespace',
-        'singleton': true
-      })
-      .append({
         'label': gettext('Name'),
-        'name': 'pods_name',
+        'name': 'name',
         'singleton': true
       })
       .append({
-        'label': gettext('Labels'),
-        'name': 'pods_labels',
+        'label': gettext('Namespace'),
+        'name': 'namespace',
         'singleton': true
       });
     }
   
     function bigdataClusterProperties() {
       return {
-        'pods_labels': {label: gettext('Labels'), filters: ['noValue', 'json'] },
-        'pods_name': { label: gettext('Name'), filters: ['noName'] },
-        'pods_namespace': { label: gettext('Namespace'), filters: ['noValue'] }
+        'labels': {label: gettext('Labels'), filters: ['noValue', 'json'] },
+        'name': { label: gettext('Name'), filters: ['noName'] },
+        'namespace': { label: gettext('Namespace'), filters: ['noValue'] },
+        'id': { label: gettext('Id'), filters: ['noValue'] },
+        'replicas': { label: gettext('Replicas'), filters: ['noValue'] }
       };
     }
   
