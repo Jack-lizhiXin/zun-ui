@@ -1,0 +1,35 @@
+<div ng-controller="horizon.dashboard.container.bigdataClusters.OverviewController as ctrl">
+    <div class="row">
+      <div class="col-md-6 detail">
+        <h3>Metadata</h3>
+        <hr>
+        <hz-resource-property-list
+          resource-type-name="OS::Zun::BigdataCluster"
+          cls="dl-horizontal"
+          item="ctrl.bigdataCluster"
+          property-groups="[['cluster_name', 'namespace', 'cluster_status', 'create_time', 'number_of_nodes', 'available_number', 
+          'master_node_id', 'slave_node_id']]">
+        </hz-resource-property-list>
+      </div>
+      <div class="col-md-6 detail">
+        <h3>Node Info</h3>
+        <hr>
+        <div class="row">
+          <dl class="col-md-12 dl-horizontal" ng-repeat="bigdataCluster in ctrl.bigdataCluster.nodeInfo">
+            <dt>Type</dt>
+            <dd>{$ bigdataCluster.type $}</dd>
+            <dt>Name</dt>
+            <dd>{$ bigdataCluster.name $}</dd>
+            <dt>Namespace</dt>
+            <dd>{$ bigdataCluster.namespace $}</dd>
+            <dt>ID</dt>
+            <dd>{$ bigdataCluster.container_id $}</dd>
+            <dt>IP</dt>
+            <dd>{$ bigdataCluster.ip $}</dd>
+            <dt>Status</dt>
+            <dd>{$ bigdataCluster.status $}</dd>
+          </dl>
+        </div>
+      </div>
+  </div>
+</div>

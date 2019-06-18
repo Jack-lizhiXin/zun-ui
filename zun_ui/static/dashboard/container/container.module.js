@@ -28,6 +28,7 @@
       'horizon.dashboard.container.pods',
       'horizon.dashboard.container.bigdataClusters',
       'horizon.dashboard.container.deployments',
+      'horizon.dashboard.container.jobs',
       'horizon.dashboard.container.images',
       'horizon.dashboard.container.hosts',
       'ngRoute'

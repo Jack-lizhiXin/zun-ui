@@ -332,7 +332,9 @@ def bigdataCluster_list(request, limit=None, marker=None, sort_key=None, sort_di
     return zunclient(request).bigdataClusters.list(limit, marker, sort_key, sort_dir)
 
 def bigdataCluster_create(request, **kwargs):
+    print "YSP"
     args, run = _cleanup_params(BIGDATACLUSTER_CREATE_ATTRS, True, **kwargs)
+    print "args", args
     # yaml file -> file
     yaml_file = str(args["template"])
     print yaml_file
@@ -343,7 +345,7 @@ def bigdataCluster_create(request, **kwargs):
     k8s_client.create_deployment_from_yaml(json_file)
     return
 
-def create_test(request, **kwargs):
+def create_by_proprity_test(request, **kwargs):
     args, run = _cleanup_params(BIGDATACLUSTER_CREATE_ATTRS, True, **kwargs)
     print args, run
     return

@@ -54,7 +54,7 @@
       function submit(context) {
         console.log('submit:');
         console.log(context);
-        return zun.createBigdataCluster(context.model, true).then(success, true);
+        return zun.createBigdataCluster2(context.model, true).then(success, true);
       }
   
       function success(response) {

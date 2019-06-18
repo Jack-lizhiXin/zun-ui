@@ -12,8 +12,22 @@
   
     function bigdataClustersService(detailRoute, zun) {
       return {
+        getDetailsPath: getDetailsPath,
+        getBigdataClusterPromise: getBigdataClusterPromise,
         getBigdataClustersPromise: getBigdataClustersPromise
       };
+
+      function getDetailsPath(item) {
+        return detailRoute + 'OS::Zun::BigdataCluster/' + item.id;
+      }
+
+      function getBigdataClusterPromise(identifier) {
+        return zun.getBigdataCluster(identifier).then(modifyDetails);
+      }
+
+      function modifyDetails(response) {
+        return {data: modifyDetailItem(response.data)};
+      }
 
       function getBigdataClustersPromise(params) {
         return zun.getBigdataClusters(params).then(modifyResponse);
@@ -26,6 +40,13 @@
       function modifyItem(item) {
         item.id = item.id;
         item.trackBy = item.id;
+        return item;
+      }
+
+      function modifyDetailItem(item) {
+        item.id = item.id;
+        item.uuid = item.id;
+        item.trackBy =item.id;
         return item;
       }
     }

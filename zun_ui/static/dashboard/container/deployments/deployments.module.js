@@ -80,26 +80,19 @@
         'label': gettext('Name'),
         'name': 'deployment_name',
         'singleton': true
-      })
-      .append({
-        'label': gettext('ID'),
-        'name': 'id',
-        'singleton': true
-      })
-      .append({
-        'label': gettext('Labels'),
-        'name': 'deployment_labels',
-        'singleton': true
       });
     }
   
     function deploymentProperties() {
       return {
+        'id': { label: gettext('ID'), filters: ['noValue'] },
         'deployment_labels': {label: gettext('Labels'), filters: ['noValue', 'json'] },
         'deployment_name': { label: gettext('Name'), filters: ['noName'] },
-        'id': { label: gettext('ID'), filters: ['noValue'] },
         'deployment_namespace': { label: gettext('Namespace'), filters: ['noValue'] },
-        'metadata': {label: gettext('Metadata'), filters: ['noValue', 'json']}
+        'cluster_name': {label: gettext('Cluster_name'), filters: ['noValue']},
+        'replicas': {label: gettext('Replicas'), filters: ['noValue']},
+        'available_replicas': {label: gettext('Available_replicas'), filters: ['noValue']},
+        'ready_replicas': {label: gettext('Ready_replicas'), filters: ['noValue']}
       };
     }
   

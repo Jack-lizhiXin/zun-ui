@@ -19,7 +19,6 @@
       'horizon.framework.conf.resource-type-registry.service',
       'horizon.framework.util.i18n.gettext',
       'horizon.dashboard.container.deployments.actions.create.service',
-      'horizon.dashboard.container.deployments.actions.create2.service',
       'horizon.dashboard.container.deployments.actions.delete.service',
       'horizon.dashboard.container.deployments.resourceType'
     ];
@@ -28,7 +27,6 @@
       registry,
       gettext,
       createDeploymentService,
-      createDeploymentService2,
       deleteDeploymentService,
       resourceType
     ) {
@@ -42,16 +40,6 @@
             text: gettext('Create By Yaml')
           }
         });
-
-        //  workflow2: create by property
-
-        // .append({
-        //   id: 'createDeploymentAction2',
-        //   service: createDeploymentService2,
-        //   template: {
-        //     text: gettext('Create By Property')
-        //   }
-        // })
   
       deploymentsResourceType.itemActions
         .append({

@@ -31,6 +31,7 @@
     $scope.context.loadPromise.then(onGetCapsule);
 
     function onGetCapsule(capsule) {
+      console.log('capsule', capsule.data);
       ctrl.capsule = capsule.data;
     }
   }

@@ -20,7 +20,8 @@
       'horizon.framework.util.i18n.gettext',
       'horizon.dashboard.container.bigdataClusters.actions.create.service',
       'horizon.dashboard.container.bigdataClusters.actions.create2.service',
-      'horizon.dashboard.container.bigdataClusters.actions.refresh.service',
+      'horizon.dashboard.container.bigdataClusters.actions.delete.service',
+      'horizon.dashboard.container.bigdataClusters.actions.update.service',
       'horizon.dashboard.container.bigdataClusters.resourceType'
     ];
   
@@ -29,7 +30,8 @@
       gettext,
       createBigdataClusterService,
       createBigdataClusterService2,
-      refreshBigdataClusterService,
+      deleteBigdataClusterService,
+      updateBigdataClusterService,
       resourceType
     ) {
       var bigdataClustersResourceType = registry.getResourceType(resourceType);
@@ -50,13 +52,20 @@
           }
         });
   
-      // FIXME(shu-mutow): refresh action is dummy. remove it when add other action.
       bigdataClustersResourceType.itemActions
         .append({
-          id: 'refreshBigdataClusterAction',
-          service: refreshBigdataClusterService,
+          id: 'deleteBigdataClusterAction',
+          service: deleteBigdataClusterService,
           template: {
-            text: gettext('Refresh')
+            type: 'delete',
+            text: gettext('Delete')
+          }
+        })
+        .append({
+          id: 'updateBigdataClusterAction',
+          service: updateBigdataClusterService,
+          template: {
+            text: gettext('Update')
           }
         });
     }

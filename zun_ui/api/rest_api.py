@@ -14,7 +14,8 @@ from django.views import generic
 
 from zun_ui.api import client
 from zun_ui.api import k8s_client
-
+from zun_ui.api import create_by_property
+from zun_ui.api import DB
 from openstack_dashboard.api.rest import urls
 from openstack_dashboard.api.rest import utils as rest_utils
 import json
@@ -234,15 +235,49 @@ class BigdataClusters(generic.View):
 
     @rest_utils.ajax(data_required=True)
     def post(self, request):
-        new_deployment_bigdataCluster = client.bigdataCluster_create(request, **request.DATA)
+        print type(request.DATA)
+        info = request.DATA
+        print info
+        create_property = {}
+        if 'action' in info and info['action'] == 'property':
+            create_property['name'] = info['name']
+            create_property['namespace'] = info['namespace']
+            create_property['pods'] = int(info['pods_number'])
+            print type(create_property['pods'])
+            create_by_property.main(create_property)
+        else:
+            print "yaml"
+            new_deployment_bigdataCluster = client.bigdataCluster_create(request, **request.DATA)
         return
 
     @rest_utils.ajax(data_required=True)
-    def post2(self, request):
-        """Create a new BigdataCluster by property.
+    def delete(self, request):
+        """Delete BigdataCluster by id.
 
-        Returns the new BigdataCluster object on success.
+        Returns HTTP 204 (no content) on successful deletion.
         """
+        for id in request.DATA:
+            opts = {'id': id}
+            # print opts['id']
+            # client.deployment_delete(request, **opts)
+            k8s_client.delete_deployment_from_id(opts["id"])
+        return
+
+@urls.register
+class BigdataCluster(generic.View):
+    """API for retrieving a single bigdataCluster"""
+    url_regex = r'zun/bigdataClusters/(?P<id>[^/]+)$'
+
+    @rest_utils.ajax()
+    def get(self, request, id):
+        # id_to_deployment_info = k8s_client.get_deployment_info_from_id(id)
+        hadoop_cluster_info = DB.read_hadoop_info_from_id(id)
+        return hadoop_cluster_info
+
+    @rest_utils.ajax(data_required=True)
+    def patch(self, request, id):
+        """Update a BigdataCluster"""
+        print request.DATA
         return
 
 @urls.register
@@ -281,7 +316,7 @@ class Deployments(generic.View):
 
     @rest_utils.ajax(data_required=True)
     def delete(self, request):
-        """Delete one or more Deployments by id.
+        """Delete Deployments by id.
         Returns HTTP 204 (no content) on successful deletion.
         """
         for id in request.DATA:
@@ -289,7 +324,6 @@ class Deployments(generic.View):
             # print opts['id']
             # client.deployment_delete(request, **opts)
             k8s_client.delete_deployment_from_id(opts["id"])
-
         return
 
 @urls.register
@@ -303,6 +337,20 @@ class Deployment(generic.View):
         # print "id: ", id
         id_to_deployment_info = k8s_client.get_deployment_info_from_id(id)
         return json.loads(id_to_deployment_info)
+
+@urls.register
+class Jobs(generic.View):
+    """API for Jobs"""
+    url_regex = r'zun/jobs/$'
+
+    @rest_utils.ajax()
+    def get(self, request):
+        """Get a list of the Jobs.
+
+        The returned result is an object with property 'items' and each
+        item under this is a Jobs.
+        """
+        return
      
 @urls.register
 class Capsule(generic.View):

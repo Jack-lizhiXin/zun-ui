@@ -14,3 +14,4 @@ def create_from_yaml(k8s_client, yaml_file, verbose=False, **kwargs):
             print yml_document
 
             if "List" in yml_document["kind"]:
+                print ""

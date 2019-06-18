@@ -32,6 +32,7 @@
     var podsPath = '/api/zun/pods/';
     var bigdataClustersPath = 'api/zun/bigdataClusters/';
     var deploymentsPath = 'api/zun/deployments/';
+    var jobsPath = '/api/zun/jobs/';
     var imagesPath = '/api/zun/images/';
     var hostsPath = '/api/zun/hosts/';
     var service = {
@@ -64,13 +65,16 @@
       deleteCapsule: deleteCapsule,
       getPods: getPods,
       getBigdataClusters: getBigdataClusters,
+      getBigdataCluster: getBigdataCluster,
       createBigdataCluster: createBigdataCluster,
       createBigdataCluster2: createBigdataCluster2,
+      deleteBigdataCluster: deleteBigdataCluster,
+      updateBigdataCluster: updateBigdataCluster,
       getDeployments: getDeployments,
       getDeployment: getDeployment,
       createDeployment: createDeployment,
-      createDeployment2: createDeployment2,
       deleteDeployment: deleteDeployment,
+      getJobs: getJobs,
       pullImage: pullImage,
       getImages: getImages,
       deleteImage: deleteImage,
@@ -267,13 +271,28 @@
       var msg = gettext('Unable to retrieve the BigdataClusters.');
       return apiService.get(bigdataClustersPath).error(error(msg));
     }
+    function getBigdataCluster(id) {
+      var msg = gettext('Unable to retrieve the BigdataCluster.');
+      return apiService.get(bigdataClustersPath + id).error(error(msg));
+    }
     function createBigdataCluster(params) {
       var msg = gettext('Unable to create BigdataCluster.');
       return apiService.post(bigdataClustersPath, params).error(error(msg));
     }
     function createBigdataCluster2(params) {
       var msg = gettext('Unable to create BigdataCluster.');
-      return apiService.post2(bigdataClustersPath, params).error(error(msg));
+      return apiService.post(bigdataClustersPath, params).error(error(msg));
+    }
+    function deleteBigdataCluster(id, suppressError) {
+      var promise = apiService.delete(bigdataClustersPath, [id]);
+      return suppressError ? promise : promise.error(function() {
+        var msg = gettext('Unable to delete the BigdataCluster with id: %(id)s');
+        toastService.add('error', interpolate(msg, { id: id }, true));
+      });
+    }
+    function updateBigdataCluster(id, params) {
+      var msg = gettext('Unable to update BigdataCluster.');
+      return apiService.patch(bigdataClustersPath + id, params).error(error(msg));
     }
 
     //////////////
@@ -299,9 +318,14 @@
       var msg = gettext('Unable to create Deployment.');
       return apiService.post(deploymentsPath, params).error(error(msg));
     }
-    function createDeployment2(params) {
-      var msg = gettext('Unable to create Deployment.');
-      return apiService.post2(deploymentsPath, params).error(error(msg));
+
+    //////////////
+    // Capsules //
+    //////////////
+
+    function getJobs() {
+      var msg = gettext('Unable to retrieve the Jobs.');
+      return apiService.get(jobsPath).error(error(msg));
     }
 
     ////////////

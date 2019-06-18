@@ -25,11 +25,13 @@
               // info
               name: {
                 title: gettext("Name"),
-                type: "string"
+                type: "string",
+                readonly: actionType === "update"
               },
               namespace: {
                 title: gettext("Namespace"),
-                type: "string"
+                type: "string",
+                readonly: actionType === "update"
               },
               pods_number: {
                 title: gettext("Pods number"),
@@ -85,6 +87,7 @@
             name: "",
             namespace: "",
             pods_number: "",
+            action: "property"
         };
   
         var config = {
