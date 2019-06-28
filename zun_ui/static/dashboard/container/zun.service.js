@@ -75,6 +75,7 @@
       createDeployment: createDeployment,
       deleteDeployment: deleteDeployment,
       getJobs: getJobs,
+      createJob: createJob,
       pullImage: pullImage,
       getImages: getImages,
       deleteImage: deleteImage,
@@ -320,12 +321,18 @@
     }
 
     //////////////
-    // Capsules //
+    //  Jobs //
     //////////////
 
     function getJobs() {
       var msg = gettext('Unable to retrieve the Jobs.');
       return apiService.get(jobsPath).error(error(msg));
+    }
+    function createJob(params) {
+      console.log('--', params)
+      var msg = gettext('Unable to create Job.');
+      return apiService.post(jobsPath, params).error(error(msg));
+      //return apiService.post(jobsPath, params);
     }
 
     ////////////

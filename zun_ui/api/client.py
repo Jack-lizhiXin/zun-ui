@@ -12,6 +12,9 @@
 
 import logging
 import shlex
+import os
+import csv
+import DB
 
 from django.conf import settings
 
@@ -332,7 +335,6 @@ def bigdataCluster_list(request, limit=None, marker=None, sort_key=None, sort_di
     return zunclient(request).bigdataClusters.list(limit, marker, sort_key, sort_dir)
 
 def bigdataCluster_create(request, **kwargs):
-    print "YSP"
     args, run = _cleanup_params(BIGDATACLUSTER_CREATE_ATTRS, True, **kwargs)
     print "args", args
     # yaml file -> file

@@ -50,47 +50,47 @@
       .setListFunction(jobService.getJobsPromise)
       .tableColumns
       .append({
-        id: 'name',
+        id: 'jobname',
         priority: 1,
         sortDefault: true
       })
       .append({
-        id: 'id',
-        priority: 2
+        id: 'appID',
+        priority: 1
+      })
+      .append({
+        id: 'clustername',
+        priority: 1
+      })
+      .append({
+        id: 'jobtemplate',
+        priority: 1
+      })
+      .append({
+        id: 'masterIP',
+        priority: 1
       })
       .append({
         id: 'status',
         priority: 1
-      })
-      .append({
-        id: 'time',
-        priority: 3
       });
       // for magic-search
       registry.getResourceType(resourceType).filterFacets
       .append({
-        'label': gettext('ID'),
-        'name': 'id',
-        'singleton': true
-      })
-      .append({
         'label': gettext('Name'),
-        'name': 'meta_name',
-        'singleton': true
-      })
-      .append({
-        'label': gettext('Status'),
-        'name': 'status',
+        'name': 'name',
         'singleton': true
       });
     }
   
     function jobProperties() {
       return {
-        'id': {label: gettext('ID'), filters: ['noValue'] },
-        'name': { label: gettext('Name'), filters: ['noName'] },
-        'status': { label: gettext('Status'), filters: ['noValue'] },
-        'time': { label: gettext('Time'), filters: ['noValue'] }
+        'jobname': { label: gettext('Job Name'), filters: ['noName'] },
+        'appID': {label: gettext('appID'), filters: ['noValue'] },
+        'clustername': { label: gettext('Cluster Name'), filters: ['noName'] },
+        'jobtemplate': { label: gettext('Template'), filters: ['noValue'] },
+        'masterIP': { label: gettext('MasterIP'), filters: ['noValue'] },
+        'status': { label: gettext('Status'), filters: ['noValue'] }
       };
     }
   

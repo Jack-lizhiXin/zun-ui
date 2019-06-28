@@ -9,16 +9,21 @@
 #    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #    License for the specific language governing permissions and limitations
 #    under the License.
-
+from django.http import HttpResponse
 from django.views import generic
+from django import forms
 
+from oslo_serialization import jsonutils
 from zun_ui.api import client
 from zun_ui.api import k8s_client
 from zun_ui.api import create_by_property
 from zun_ui.api import DB
 from openstack_dashboard.api.rest import urls
 from openstack_dashboard.api.rest import utils as rest_utils
+from django.views.decorators.csrf import csrf_exempt
 import json
+import submit_job
+import os
 
 
 def change_to_id(obj):
@@ -278,6 +283,14 @@ class BigdataCluster(generic.View):
     def patch(self, request, id):
         """Update a BigdataCluster"""
         print request.DATA
+        info = request.DATA
+        update_property={}
+        update_property['id'] = info['id']
+        update_property['name'] = info['name']
+        update_property['namespace'] = info['namespace']
+        update_property['pods'] = int(info['pods_number'])
+        print update_property
+        create_by_property.update_deployment(update_property)
         return
 
 @urls.register
@@ -338,19 +351,6 @@ class Deployment(generic.View):
         id_to_deployment_info = k8s_client.get_deployment_info_from_id(id)
         return json.loads(id_to_deployment_info)
 
-@urls.register
-class Jobs(generic.View):
-    """API for Jobs"""
-    url_regex = r'zun/jobs/$'
-
-    @rest_utils.ajax()
-    def get(self, request):
-        """Get a list of the Jobs.
-
-        The returned result is an object with property 'items' and each
-        item under this is a Jobs.
-        """
-        return
      
 @urls.register
 class Capsule(generic.View):
@@ -424,3 +424,56 @@ class Host(generic.View):
     def get(self, request, id):
         """Get a specific host"""
         return change_to_id(client.host_show(request, id).to_dict())
+
+
+class UploadObjectForm(forms.Form):
+    file = forms.FileField(required=False)
+
+@urls.register
+class Jobs(generic.View):
+    """API for Jobs"""
+    url_regex = r'zun/jobs/$'
+
+    @rest_utils.ajax()
+    def get(self, request):
+        """Get a list of the Jobs.
+
+        The returned result is an object with property 'items' and each
+        item under this is a Jobs.
+        """
+        job_info = submit_job.readcsv()
+        if job_info == False:
+            job_info = []
+        else:
+            for a in job_info:
+                yarninfo = submit_job.get_yarn_info(a['containername'], a['masterIP'])
+                appID = a['appID']
+                for b in yarninfo['apps']['app']:
+                    if appID == b['id']:
+                        if b['state'] == 'FINISHED':
+                            a['status'] = b['finalStatus']
+                        elif b['state'] == 'RUNNING':
+                            a['status'] = b['state']
+        print job_info
+        result = {"jobs": job_info}
+        return result
+
+    def post(self, request):
+        print '!!!', request.FILES
+        print '---', request.POST
+        request.DATA = jsonutils.loads(request.POST['$$originalJSON'])
+        inputfile = request.FILES.get("inputfile", None)
+        jar = request.FILES.get("jar", None)
+        request.DATA['inputfile'] = inputfile.name
+        request.DATA['jar']= jar.name
+        print '~~~~~~~~~~~~~~~~~~~~',  request.DATA
+        destination1 = open(os.path.join("/opt/upload/inputfile_upload", inputfile.name),'wb+')
+        destination2 = open(os.path.join("/opt/upload/jar_upload", jar.name),'wb+')
+        for chunk in inputfile.chunks():
+            destination1.write(chunk)
+        destination1.close()
+        for chunk in jar.chunks():
+            destination2.write(chunk)
+        destination2.close()
+        submit_job.submit_job(request)
+        return True

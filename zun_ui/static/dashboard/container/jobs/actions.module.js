@@ -19,6 +19,7 @@
       'horizon.framework.conf.resource-type-registry.service',
       'horizon.framework.util.i18n.gettext',
       'horizon.dashboard.container.jobs.actions.refresh.service',
+      'horizon.dashboard.container.jobs.actions.create.service',
       'horizon.dashboard.container.jobs.resourceType'
     ];
   
@@ -26,10 +27,20 @@
       registry,
       gettext,
       refreshJobService,
+      createJobService,
       resourceType
     ) {
       var jobsResourceType = registry.getResourceType(resourceType);
   
+      jobsResourceType.globalActions
+      .append({
+        id: 'createJobAction',
+        service: createJobService,
+        template: {
+          text: gettext('Create')
+        }
+      });
+
       // FIXME(shu-mutow): refresh action is dummy. remove it when add other action.
       jobsResourceType.itemActions
         .append({
